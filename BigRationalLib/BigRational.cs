@@ -8,33 +8,42 @@ namespace BigRationalLib
         //reprezentacja wewnętrzna
         public BigInteger Numerator { get; init; }
         public BigInteger Denominator { get; init; }
-        //stałe         //konstruktory
+        //stałe         
+        
+        //konstruktory
         public BigRational(BigInteger numerator, BigInteger denominator) //tu jest wypasiona logika
         {
             Numerator = numerator;
-            Denominator = denominator;             //normalizacja znaku
-            if (Denominator < 0)
+            Denominator = denominator;             
+            
+            //normalizacja znaku
+            if (Denominator < 0 && Numerator > 0)
             {
                 Numerator = Numerator * (-1);
                 Denominator = Denominator * (-1);
             }
-            if (Denominator < 0 && Numerator < 0)
+            else if(Denominator > 0 && Numerator < 0)
             {
-                Numerator = Numerator * (-1);
-                Denominator = Denominator * (-1);
-            }             //skracanie
-            BigInteger a = Numerator;
+            }
+            
+            //if (Denominator < 0 && Numerator < 0)
+            //{
+            //    Numerator = Numerator * (-1);
+            //    Denominator = Denominator * (-1);
+            //}
+
+            //skracanie
+            BigInteger a = Numerator;
             BigInteger b = Denominator;
-            if (Numerator > Denominator)
+
+            int tmp;
+            while (b != 0)
             {
-                while (a != b)
-                {
-                    if (a > b)
-                        a -= b;
-                    else
-                        b -= a;
-                }
+                tmp = (int)(a % b);
+                a = b;
+                b = tmp;
             }
+
             Numerator = Numerator / a;
             Denominator = Denominator / a;
         }
